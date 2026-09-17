@@ -1,0 +1,14 @@
+<!DOCTYPE html><body style="background:#0a0a0a;color:#fff;font-family:system-ui;padding:20px">
+<h2>Import .md journals to Mumbai memory</h2>
+<input type="file" id="files" multiple accept=".md,.txt" />
+<pre id="log"></pre>
+<script>
+document.getElementById('files').onchange=async e=>{
+  for(let f of e.target.files){
+    const text=await f.text();
+    await fetch('/api/save',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text, file:f.name, ts:new Date().toISOString()})});
+    document.getElementById('log').textContent+=`✓ Imported ${f.name} (${text.length} chars)\n`;
+  }
+}
+</script>
+</body></html>
